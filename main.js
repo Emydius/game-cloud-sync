@@ -13,23 +13,22 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js')
         }
     })
-
     win.loadFile('index.html')
 }
 
-// When file is added, add to fileList
-function updateFileList(event, newList) {
-   fileList = newList 
-   console.log('updateFileList function')
-   console.log('main.js fileList: ' + fileList)
+// TODO: This will then access each file and create GUI elements for each one
+function addFile(event, file) {
+    fileList.push(file)
+    console.log(fileList)
 }
 
 app.whenReady().then(() => {
-    // Listens for ipc channel 'sendFiles' when file is added
-    ipcMain.on('sendFiles', updateFileList)
+    // Listens for ipc channel 'addFile' when file is added
+    ipcMain.handle('addFile', addFile)
     createWindow()
 })
 
+// TODO: Catch error when failing to connect to Dropbox
 // Start dropbox object with necessary access token
 const dbx = new Dropbox({
     accessToken: 'sl.Bke2qjIGrgmsI3nUm2_2b4eEVz0QKFZIXkWCcyexHWEWkd8LF_UM4evaPnuz_bT92q48fPVHUZrkR_kgJRs5Tb07c85aumIHitLX3k3KDQXQjm7yjcb3IBFMnOoFc-k7o1qYVJYXAhRV',
