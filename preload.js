@@ -5,4 +5,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   sendFileArray: (fileArray) => ipcRenderer.send('sendFiles', fileArray),
   // called in renderer to add file
   addFile: (file) => ipcRenderer.invoke('addFile', file),
+
+  updateList: (fileList) => ipcRenderer.on('update-list', fileList),
 })
