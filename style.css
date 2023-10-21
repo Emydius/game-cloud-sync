@@ -32,4 +32,6 @@ p {
 
 .list_entry {
   background-color: lightblue;
+  border-style: solid;
+  border-width: 1px;
 }
