@@ -11,6 +11,10 @@ Features:
 * Add file
 * Program shows file metadata in your saved list
 
+Current Bugs:
+* After adding two files, on the third one it duplicates the first file
+* Uncaught (in promise) TypeError: Failed to fetch; oops???
+
 TODO:
 * Make program remember which files you have added to it on refresh
 * Program syncing directories for games that have changing save file names

@@ -9,12 +9,13 @@ Figures out its own name, size, and last modified times from a path string.
 
 */
 module.exports = class SyncedFile {
-    constructor(filePath) {
+    constructor(filePath, id) {
         var stats = fs.statSync(filePath)
 
         this.name = path.basename(filePath)
         this.path = filePath
         this.size = stats.size 
         this.lastModified = new Date(stats.mtime)
+        this.id = id
     }
 }

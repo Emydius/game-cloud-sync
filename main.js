@@ -18,14 +18,20 @@ const createWindow = () => {
         }
     })
 
-    ipcMain.handle('addFile', addFile)
+    // Update renderer list on app start with currently synced files
+    win.webContents.send('update-list', fileList)
+
     
-    // TODO: This will then access each file and create GUI elements for each one
+    // Upon 'addFile' request from renderer: create SyncedFile object, add to file list, and update renderer list
+    // TODO: Check for duplicate files (currently broken!)
+    ipcMain.handle('addFile', addFile)
     function addFile(event, filePath) {
-        fileList.push(filePath)
+        addedFile = new SyncedFile(filePath, fileList.length)
+        fileList.push(addedFile)
         console.log(fileList)
+        
         // Sends objects to be turned into HTML elements
-        win.webContents.send('update-list', new SyncedFile(filePath))
+        win.webContents.send('update-list', fileList)
     }
 
     win.loadFile('index.html')
@@ -39,13 +45,13 @@ app.whenReady().then(() => {
 
 
 // TODO: Catch error when failing to connect to Dropbox
-// Start dropbox object with necessary access token
-const dbx = new Dropbox({
-    accessToken: 'sl.Bkt53v3Xi0zCWMWDmKSH1pLRdpOi01GAJMzMV0pTAVha4xv_yLGuW9fkNEvkmhr4_obTThnyWXWYFP-y6m1_7baT8T8CL8A2tW5oYwKB9LTxFOqBa9r3-6aLB-qcTvmDETYEOkcGJdiG',
-    fetch
-})
+// Start dropbox object with necessary access token while authentication isn't added yet
+// const dbx = new Dropbox({
+//     accessToken: 'accessToken',
+//     fetch
+// })
 
-dbx.filesListFolder({
-    path: '',
-}).then(res => console.log(res.result.entries[0])
-).catch((e) => console.log(e))
+// dbx.filesListFolder({
+//     path: '',
+// }).then(res => console.log(res.result.entries[0])
+// ).catch((e) => console.log(e))
